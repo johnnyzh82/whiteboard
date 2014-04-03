@@ -18,7 +18,7 @@
             <li><a href="#">Feature</a></li>
             <li><a href="#">Contact</a></li>
           </ul>
-          <form action="LoginController" method="POST" class="navbar-form navbar-right" role="form">
+          <form action="login" method="POST" class="navbar-form navbar-right" role="form">
             <div class="form-group">
               <input type="text" name="student_id" placeholder="Student id" class="form-control">
             </div>
