@@ -18,14 +18,14 @@
             <li><a href="feature.jsp">Feature</a></li>
             <li><a href="contact.jsp">Contact</a></li>
           </ul>
-          <form action="login" method="POST" class="navbar-form navbar-right" role="form">
+          <form id="signin_form" action="login" method="POST" class="navbar-form navbar-right" role="form">
             <div class="form-group">
               <input type="text" name="student_id_signin" placeholder="Student id" class="form-control">           
             </div>
             <div class="form-group">
               <input type="password" name="password_signin" placeholder="Password" class="form-control">
             </div>
-            <button type="submit" class="btn btn-success">Sign in</button>
+            <button id="signin_submit" type="submit" class="btn btn-success">Sign in</button>
           </form>
           
         </div>
@@ -34,17 +34,12 @@
   </div>
   <div class="container">
   		<table style="width:100%">
-  			<c:set var="valid" scope="session" value="${ValidUser}"/>
-  			<c:if test="${valid == false}" >
 			    <tr id="account_not_exist" class="alert alert-danger">
 			        <td valign="middle" align="center">The student id and password are invalid!</td>
 			    </tr>
-		    </c:if>
-		    <c:if test="${valid == 'blank'}" >
 	 		    <tr id="account_blank" class="alert alert-danger">
 			        <td valign="middle" align="center">The student id and password are blank!</td>
 			    </tr>
-		    </c:if>
 		</table>
   </div>
            

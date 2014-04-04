@@ -1,7 +1,22 @@
 /**
  * login.js for validating the sign in format and agreement of policy
  */
-
+function validSignIn()
+{
+	var inputId = $('input[name=student_id_signin]').val().trim();
+    var inputPass = $('input[name=password_signin]').val();
+	if ( inputId == '' || inputPass == '') 
+    {
+		$('tr#account_blank').show();
+		return false;
+    } 
+	else
+	{
+		$('tr#account_blank').hide();
+		return true;
+	}
+}
+	
 $( document ).ready(function() {
 	// Handler for .ready() called.
 	$('tr#account_not_exist').hide();
@@ -22,6 +37,10 @@ $( document ).ready(function() {
 	    });
 	});
 	
+
+	$('form#signin_form').submit(function(e) {
+		 return validSignIn();
+	});
 	
 	$("input[name=student_id_signin]").keyup(function (e) {
 	    var student_id = $(this).val();
@@ -31,16 +50,18 @@ $( document ).ready(function() {
 	        url: "validId",
 	        data: {"id":student_id},
 	        success: function (data) {
-	        	alert(data);
-	            if(data=='false')
+//			    console.log(data.valid);
+			    var valid = data.valid;
+	            if(!valid)
 	            {
-	            	$('input[name=student_id_signin]').addClass('error-shadow');
+	            	$('input[name=student_id_signin]').removeClass('good-id');
+		            $('input[name=student_id_signin]').addClass('error-shadow');
 	            }
-	            else if(data=='true')
+	            else if(valid)
 	            {
+	            	$('input[name=student_id_signin]').removeClass('error-shadow');
 	            	$('input[name=student_id_signin]').addClass('good-id');
 	            }
-	            else{alert("wrong");}
 	        }
 	    });
 	});

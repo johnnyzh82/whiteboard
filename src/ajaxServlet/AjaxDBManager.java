@@ -15,18 +15,16 @@ public class AjaxDBManager {
 		boolean valid = false;
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			
 			String existence_sql = "SELECT Count(*) as num FROM wb_students where student_id = ?;";
-			PreparedStatement pstmt1 = conn.prepareStatement(existence_sql);
-			pstmt1.setInt(1, inputStudentId);
-			ResultSet rs1 = pstmt1.executeQuery();
+			PreparedStatement pstmt = getConn().prepareStatement(existence_sql);
+			pstmt.setInt(1, inputStudentId);
+			ResultSet rs = pstmt.executeQuery();
 			
 			int count = 0;
-			while (rs1.next()) 
+			while (rs.next()) 
 			{
-				count  = rs1.getInt("num");
+				count  = rs.getInt("num");
 			}
-			ConnectionManager.getInstance().closeConnection();
 			if(count > 0)
 			{
 				valid = true;
@@ -37,5 +35,9 @@ public class AjaxDBManager {
 			e1.printStackTrace();
 		}
 		return valid;
+	}
+
+	public static Connection getConn() {
+		return conn;
 	}
 }
