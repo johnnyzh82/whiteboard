@@ -1,1 +1,4 @@
 /test-classes
+war/WEB-INF/web.xml
+war/WEB-INF/web.xml
+*.xml
