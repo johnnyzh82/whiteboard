@@ -3,6 +3,7 @@ package com.whiteboard;
 import java.io.IOException;
 
 
+
 import javax.servlet.RequestDispatcher;
 //import javax.servlet.RequestDispatcher;
 //import javax.servlet.ServletConfig;
@@ -10,6 +11,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
  
 
 public class SignupController extends HttpServlet {
@@ -30,6 +32,10 @@ public class SignupController extends HttpServlet {
         if( !"".equals(firstName)){ request.setAttribute("first_name_signup", firstName); }
     	if( !"".equals(lastName)){ request.setAttribute("last_name_signup", lastName); }
 		if(	!"".equals(email)){ request.setAttribute("email_signup", email); }
+		
+		HttpSession session = request.getSession();
+	    
+	    session.setAttribute("firstName", firstName);
        
 		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/signup.jsp");
 		dispatcher.forward(request, response);

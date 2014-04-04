@@ -3,6 +3,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import com.google.appengine.api.utils.SystemProperty;
 
 import com.whiteboard.ConnectionManager;
 
@@ -14,7 +15,13 @@ public class AjaxDBManager {
 	{
 		boolean valid = false;
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
+			if (SystemProperty.environment.value() ==
+			          SystemProperty.Environment.Value.Production) {
+				Class.forName("com.mysql.jdbc.GoogleDriver");
+			}
+			else {
+				Class.forName("com.mysql.jdbc.Driver");
+			}
 			String existence_sql = "SELECT Count(*) as num FROM wb_students where student_id = ?;";
 			PreparedStatement pstmt = getConn().prepareStatement(existence_sql);
 			pstmt.setInt(1, inputStudentId);
