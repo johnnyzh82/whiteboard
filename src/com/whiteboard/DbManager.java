@@ -3,6 +3,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import com.google.appengine.api.utils.SystemProperty;
 
 public class DbManager {
 	
@@ -13,7 +14,12 @@ public class DbManager {
 	{
 		boolean valid = false;
 		try {	
+			 if (SystemProperty.environment.value() ==
+			          SystemProperty.Environment.Value.Production) {
+			Class.forName("com.mysql.jdbc.GoogleDriver");}
+			 else{
 			Class.forName("com.mysql.jdbc.Driver");
+			 }
 			//Constructing the SQL query
 			Integer studentId = 0;
 			String password = null;
