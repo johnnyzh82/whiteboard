@@ -5,6 +5,7 @@
 		<item value="true" key="WizardProjectsImportPage.STORE_COPY_PROJECT_ID"/>
 		<item value="true" key="WizardProjectsImportPage.STORE_NESTED_PROJECTS"/>
 		<list key="WizardProjectsImportPage.STORE_DIRECTORIES">
+			<item value="C:\Users\john\Documents\GitHub\whiteboard"/>
 			<item value="C:\Users\John\Documents\GitHub\whiteboard"/>
 		</list>
 		<list key="WizardProjectsImportPage.STORE_ARCHIVES">

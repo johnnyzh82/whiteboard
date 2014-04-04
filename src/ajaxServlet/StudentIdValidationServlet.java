@@ -2,11 +2,15 @@ package ajaxServlet;
  
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.google.appengine.labs.repackaged.org.json.JSONException;
+import com.google.appengine.labs.repackaged.org.json.JSONObject;
 
 public class StudentIdValidationServlet extends HttpServlet {
  
@@ -27,13 +31,14 @@ public class StudentIdValidationServlet extends HttpServlet {
     }
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException{
- 
+    	
+    	JSONObject json = new JSONObject();
+    	
     	String studentId = request.getParameter("id");
-    	System.out.println(studentId);
+    	
     	Integer studentIdNum = 0;
     	boolean valid = false;
-    	try
-    	{
+    	try{
     		studentIdNum = Integer.valueOf(studentId);
 	  		valid = AjaxDBManager.validateUser(studentIdNum);
 		}
@@ -41,11 +46,17 @@ public class StudentIdValidationServlet extends HttpServlet {
     	{
     		valid = false;
 		}
-    	System.out.println(valid);
-    	response.setContentType("text/plain");  
+    	
+    	response.setContentType("text/json");  
     	// Set content type of the response so that jQuery knows what it can expect.
 	    response.setCharacterEncoding("UTF-8");
+	    try {
+			json.put("valid", valid);
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     	PrintWriter out = response.getWriter();
-    	out.println(valid);
+    	out.write(json.toString());
     }
 }
