@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="sql" uri="http://java.sun.com/jsp/jstl/sql" %>
+<%@ taglib prefix="x" uri="http://java.sun.com/jsp/jstl/xml" %>
 
 <html lang="en">
   <head>
@@ -28,3 +32,12 @@
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
   </head>
+  <body>
+  <script type="text/javascript" src="./js/login.js"></script>
+  <div class="navbar navbar-inverse level-one">
+    <div class="container logo-container"> 
+      <a href="http://www.stonybrook.edu/">
+        <img src="http://www.stonybrook.edu/sb/images/logo-2ndlevel.gif" alt="Logo for Stony Brook University" border="0" align="left" />
+      </a>
+    </div>
+  </div>

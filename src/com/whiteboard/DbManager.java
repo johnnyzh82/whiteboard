@@ -7,14 +7,14 @@ import java.sql.SQLException;
 public class DbManager {
 	
 	private static Connection conn = ConnectionManager.getInstance().getConnection();
-	public static boolean validateUser(UserBeanModel user)
+	
+	
+	public static boolean validateUser(Integer inputStudentId,  String inputPassword)
 	{
 		boolean valid = false;
 		try {	
 			Class.forName("com.mysql.jdbc.Driver");
 			//Constructing the SQL query
-			Integer inputStudentId = user.getStudentId();
-			String inputPassword = user.getPassword();
 			Integer studentId = 0;
 			String password = null;
 			

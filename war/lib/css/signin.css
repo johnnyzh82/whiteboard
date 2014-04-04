@@ -59,3 +59,27 @@ body
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
+
+
+input.error-shadow[name="student_id_signin"] {
+    background-image: url("../image/not_correct_mark.png");
+    background-position: 98% 50%;
+    background-repeat: no-repeat;
+    border: 1px solid #D63C2B;
+}
+
+
+input.good-id[type="student_id_signin"] {
+    background: url("../image/correct_mark.png") no-repeat scroll 265px 10px #FFFFFF;
+}
+
+.navbar
+{
+	margin-bottom: 0px;
+	border-radius: 0;
+}
+
+.level-one {
+	background-color:#990100;
+}
+

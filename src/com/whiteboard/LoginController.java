@@ -2,6 +2,8 @@ package com.whiteboard;
 
 import java.io.IOException;
 
+
+import javax.servlet.RequestDispatcher;
 //import javax.servlet.RequestDispatcher;
 //import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -19,25 +21,40 @@ public class LoginController extends HttpServlet {
     
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	
-    	UserBeanModel user = new UserBeanModel();
-        int studentId = Integer.valueOf(request.getParameter("student_id"));
-        String password = request.getParameter("password");
-        user.setStudentId(studentId);
-        user.setPassword(password);
-        
-        request.setAttribute("User", user);
-        boolean valid = DbManager.validateUser(user);
-        
-//        RequestDispatcher rd = null;
-        
-        if(valid)
+//    	UserBeanModel user = new UserBeanModel();
+    	String studentId = request.getParameter("student_id").trim();
+        String password = request.getParameter("password").trim();
+//        user.setStudentId(studentId);
+//        user.setPassword(password);
+//        request.setAttribute("User", user);
+        boolean valid = false;
+        if(!"".equals(studentId) && !"".equals(password))
         {
-        	System.out.println("Valid User");
+        	Integer studentIdNum = Integer.valueOf(studentId);
+            valid = DbManager.validateUser(studentIdNum, password);
+            request.setAttribute("ValidUser", valid);
         }
         else
         {
-        	System.out.println("Not Valid");
+        	request.setAttribute("ValidUser", "blank");
         }
+        
+        
+        if(!valid)
+        {
+        	RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/login.jsp");
+    		dispatcher.forward(request, response);
+        }
+        else
+        {
+        	//direct to the my profile page
+        }
+    }
+    
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+    {
+    	RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/login.jsp");
+		dispatcher.forward(request, response);
     }
  
 }
