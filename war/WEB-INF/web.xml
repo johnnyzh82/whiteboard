@@ -5,16 +5,18 @@ xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
 http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 
-<!-- Servlet for login page -->
+
 <!-- Servlet for Ajax Call back function -->
--		<servlet>
--			<servlet-name>StudentIdValidationServlet</servlet-name>
--			<servlet-class>ajaxServlet.StudentIdValidationServlet</servlet-class>
--		</servlet>
--		<servlet-mapping>
--			<servlet-name>StudentIdValidationServlet</servlet-name>
--			<url-pattern>/validId</url-pattern>
--		</servlet-mapping>
+	<servlet>
+		<servlet-name>StudentIdValidationServlet</servlet-name>
+		<servlet-class>ajax.servlet.StudentIdValidationServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>StudentIdValidationServlet</servlet-name>
+		<url-pattern>/validId</url-pattern>
+	</servlet-mapping>
+	
+<!-- Servlet for login page -->
 	<servlet>
 		<servlet-name>LoginController</servlet-name>
 		<servlet-class>com.whiteboard.LoginController</servlet-class>
@@ -33,6 +35,19 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 		<servlet-name>SignupController</servlet-name>
 		<url-pattern>/signup</url-pattern>
 	</servlet-mapping>
+	
+<!-- Servlet for my profile page -->	
+	<servlet>
+		<servlet-name>UserController</servlet-name>
+		<servlet-class>com.whiteboard.UserController</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>UserController</servlet-name>
+		<url-pattern>/user</url-pattern>
+	</servlet-mapping>
+	
+	
+	
 	<welcome-file-list>
 		<welcome-file>login.jsp</welcome-file>
 	</welcome-file-list>

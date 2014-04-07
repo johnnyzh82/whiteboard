@@ -1,4 +1,4 @@
-  <jsp:include page="includes/header.jsp" />
+  <%@ include file="includes/header.jsp" %>
   <div class="navbar navbar-inverse">
       <div class="container">
         <div class="navbar-header">
@@ -33,13 +33,15 @@
       </div>
   </div>
   <div class="container">
-  		<table style="width:100%">
-			    <tr id="account_not_exist" class="alert alert-danger">
-			        <td valign="middle" align="center">The student id and password are invalid!</td>
-			    </tr>
-	 		    <tr id="account_blank" class="alert alert-danger">
-			        <td valign="middle" align="center">The student id and password are blank!</td>
-			    </tr>
+	  	<table style="width:100%">
+		<c:if test="${ValidUser eq false}">
+			<tr id="account_not_exist" class="alert alert-danger">
+		        <td valign="middle" align="center">The student id and password are invalid!</td>
+		    </tr>
+		</c:if> 
+ 		    <tr id="account_blank" class="alert alert-danger">
+		        <td valign="middle" align="center">The student id and password are blank!</td>
+		    </tr>
 		</table>
   </div>
            
