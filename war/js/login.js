@@ -59,7 +59,6 @@ $( document ).ready(function() {
 	
 
 	$('form#signin_form').submit(function(e) {
-		 
 		 return validSignIn();
 	});
 	
@@ -85,6 +84,5 @@ $( document ).ready(function() {
 	            }
 	        }
 	    });
-	});
-	
+	});	
 });

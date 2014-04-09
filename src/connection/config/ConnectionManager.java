@@ -33,11 +33,13 @@ public class ConnectionManager {
 	private boolean openConnection()
 	{
 		try {
-			if (SystemProperty.environment.value() ==
-			          SystemProperty.Environment.Value.Production) {
-			conn = DriverManager.getConnection(CONN_STRING_GOOGLE, USERNAME_GOOGLE, PASSWORD_GOOGLE);}
-			else {
-			conn = DriverManager.getConnection(CONN_STRING, USERNAME, PASSWORD);
+			if (SystemProperty.environment.value() == SystemProperty.Environment.Value.Production) 
+			{
+				conn = DriverManager.getConnection(CONN_STRING_GOOGLE, USERNAME_GOOGLE, PASSWORD_GOOGLE);
+			}
+			else 
+			{
+				conn = DriverManager.getConnection(CONN_STRING, USERNAME, PASSWORD);
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

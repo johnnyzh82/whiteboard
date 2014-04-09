@@ -5,19 +5,17 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import whiteboard.bean.UserBeanModel;
 import connection.config.ConnectionManager;
-import connection.config.ConstructClass;
 
 public class DbManager {
-	
 	private static Connection conn = ConnectionManager.getInstance().getConnection();
-	public static boolean validateUser(Integer inputStudentId,  String inputPassword)
+	public static String[] validateUser(Integer inputStudentId,  String inputPassword)
 	{
-		boolean valid = false;
+		String [] idAndName = null;
 		try {	
-			ConstructClass.constructClass();
 			//Constructing the SQL query
 			Integer studentId = 0;
 			String password = null;
+			String name = null;
 			
 			String existence_sql = "SELECT Count(*) as num FROM wb_students where student_id = ?;";
 			PreparedStatement pstmt1 = conn.prepareStatement(existence_sql);
@@ -25,34 +23,32 @@ public class DbManager {
 			ResultSet rs1 = pstmt1.executeQuery();
 			
 			int count = 0;
-			while (rs1.next()) 
-			{
+			while (rs1.next()) {
 				count  = rs1.getInt("num");
 			}
 			
-			if(count > 0)
-			{
-				String sql = "SELECT * FROM wb_students where student_id = ? and password = ?;";
+			if(count > 0){
+				String sql = "SELECT * FROM wb_students where student_id = ?;";
 				PreparedStatement pstmt2 = conn.prepareStatement(sql);
 				pstmt2.setInt(1, inputStudentId);
-				pstmt2.setString(2, inputPassword);
 				ResultSet rs2 = pstmt2.executeQuery();
 				while (rs2.next()) {
 					studentId  = Integer.valueOf(rs2.getInt("student_id"));
 					password = rs2.getString("password");
+					name = rs2.getString("first_name") + ","+ rs2.getString("last_name");
 				}
 				ConnectionManager.getInstance().closeConnection();
-				if(studentId.equals(inputStudentId) && password.equals(inputPassword)) 
-				{
-					valid = true;
+				idAndName = new String[2];
+				if(studentId.equals(inputStudentId) && password.equals(inputPassword)) {
+					idAndName[0] = studentId + "";
+					idAndName[1] = name;
 				} 
 			}
 		} 
-		catch (SQLException e1) 
-		{
+		catch (SQLException e1){
 			e1.printStackTrace();
 		}
-		return valid;
+		return idAndName;
 	}
 
 	public static boolean insertUser(UserBeanModel user){
@@ -67,7 +63,7 @@ public class DbManager {
 		Integer zipcode = user.getZipcode();
 		boolean isPrivate = user.isPrivate();
 		
-		ConstructClass.constructClass();
+//		ConstructClass.constructClass();
 		String insert_sql = "INSERT INTO wb_students values(?,?,?,?,?,?,?,?,?,?,?);";
 		try {
 			PreparedStatement dbStatement = conn.prepareStatement(insert_sql);
@@ -79,7 +75,7 @@ public class DbManager {
 			dbStatement.setString(6, email);
 			dbStatement.setString(7, address);
 			dbStatement.setString(8, city);
-			if(zipcode!=null){dbStatement.setInt(9, zipcode);}else{dbStatement.setNull(9, java.sql.Types.INTEGER);};
+			if(zipcode!=null){dbStatement.setInt(9, zipcode);}else{dbStatement.setNull(9, java.sql.Types.INTEGER);}
 			dbStatement.setInt(10, 1);
 			dbStatement.setBoolean(11, isPrivate);
 			dbStatement.executeUpdate();
@@ -90,7 +86,5 @@ public class DbManager {
 			e.printStackTrace();
 			return false;
 		}
-		
-		
 	}
 }

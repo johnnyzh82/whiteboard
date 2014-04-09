@@ -62,7 +62,7 @@
                       <div class="col-sm-5">              
                         <input type="text" class="form-control" id="inputStudentId" name="inputStudentId" placeholder="Student id" value="${student_id_signup}" required/>                 
                       </div>
-                      
+                      	
                       <c:if test="${not empty valid_id}">
 	                      <div class="alert alert-danger alert-dismissable col-md-5">
 		                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -107,7 +107,7 @@
                     </div>
                     
                     <div class="form-group">
-                    	<div class="col-sm-offset-2 col-sm-6">
+                    	<div class="col-sm-offset-2 col-sm-10">
                     		<span class="text-muted ${password_error_msg}">Use at least one, uppercase letter, one lowercase letter, one numeral, and minimal seven characters.</span>
                    		</div>
                 	</div>
@@ -142,13 +142,12 @@
 
                 <fieldset>
                     <legend><span class="glyphicon glyphicon-envelope"></span> Contact</legend>
- 
                     <div class="form-group">
                     	<div align='left' class='col-sm-2'>
                         	<label for="inputEmail" class="control-label">* Email:</label>
                         </div>
                         <div class="col-sm-5">
-                          <input type="email" class="form-control" id="inputEmail" name="inputEmail" placeholder="Email" value="${valid_email }" required>
+                          <input type="email" class="form-control" id="inputEmail" name="inputEmail" placeholder="Email" value="${email_signup }" required>
                         </div>
                     </div>
                     

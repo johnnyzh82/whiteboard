@@ -31,7 +31,6 @@ public class StudentIdValidationServlet extends HttpServlet {
             throws ServletException, IOException{
     	
     	JSONObject json = new JSONObject();
-    	
     	String studentId = request.getParameter("id");
     	
     	Integer studentIdNum = 0;

@@ -1,0 +1,14 @@
+@CHARSET "ISO-8859-1";
+
+input.time {
+	width: 85px;
+}
+
+input.date {
+	width: 100px;
+}
+
+textarea#schedule-description{
+	min-height:100px;
+	max-width:520px;
+}

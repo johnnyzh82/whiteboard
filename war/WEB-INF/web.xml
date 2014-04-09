@@ -16,6 +16,16 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 		<url-pattern>/validId</url-pattern>
 	</servlet-mapping>
 	
+<!-- Servlet for Ajax call from my schedule page in Jquery UI dialog -->	
+	<servlet>
+		<servlet-name>AddingScheduleServlet</servlet-name>
+		<servlet-class>ajax.servlet.AddingScheduleServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AddingScheduleServlet</servlet-name>
+		<url-pattern>/insertSchedule</url-pattern>
+	</servlet-mapping>
+	
 <!-- Servlet for login page -->
 	<servlet>
 		<servlet-name>LoginController</servlet-name>
@@ -46,8 +56,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 		<url-pattern>/user</url-pattern>
 	</servlet-mapping>
 	
-	
-	
+
 	<welcome-file-list>
 		<welcome-file>login.jsp</welcome-file>
 	</welcome-file-list>

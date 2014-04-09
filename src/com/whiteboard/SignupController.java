@@ -32,13 +32,8 @@ public class SignupController extends HttpServlet {
         if( !"".equals(firstName)){ request.setAttribute("first_name_signup", firstName); }
     	if( !"".equals(lastName)){ request.setAttribute("last_name_signup", lastName); }
 		if(	!"".equals(email)){ request.setAttribute("email_signup", email); }
-		
-		HttpSession session = request.getSession();
-	    
-	    session.setAttribute("firstName", firstName);
        
 		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/signup.jsp");
 		dispatcher.forward(request, response);
     }
- 
 }

@@ -17,23 +17,33 @@
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="lib/jquery-ui-1.10.4.custom/css/smoothness/jquery-ui-1.10.4.custom.css">
+	<script src="lib/jquery-ui-1.10.4.custom/js/jquery-1.10.2.js"></script>
+	<script src="lib/jquery-ui-1.10.4.custom/js/jquery-ui-1.10.4.custom.js"></script>
+    
+    <!-- full calendar api  -->
+      <link rel="stylesheet" href="lib/fullcalendar-1.6.4/fullcalendar/fullcalendar.css">
+      <link rel="stylesheet" href="lib/fullcalendar-1.6.4/fullcalendar/fullcalendar.print.css">
+      <script src="lib/fullcalendar-1.6.4/fullcalendar/fullcalendar.js"></script>
     
     <!-- Bootstrap core CSS -->
     <link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
     <link href="lib/css/signin.css" rel="stylesheet">
-    <!-- Just for debugging purposes. Don't actually copy this line! -->
-    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    
+    <script type="text/javascript" src="lib/timepicker/jquery.timepicker.js"></script>
+  	<link href="lib/timepicker/jquery.timepicker.css" rel="stylesheet">
+  	
+  	<script type="text/javascript" src="lib/datepicker/js/bootstrap-datepicker.js"></script>
+  	<link href="lib/datepicker/css/datepicker.css" rel="stylesheet">
+  	
 
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
   </head>
   <body>
   <script type="text/javascript" src="./js/login.js"></script>
+
+  
   <div class="navbar navbar-inverse level-one">
     <div class="container logo-container"> 
       <a href="http://www.stonybrook.edu/">

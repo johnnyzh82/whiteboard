@@ -18,33 +18,38 @@ public class LoginController extends HttpServlet {
     
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	String studentId = request.getParameter("student_id_signin").trim();
-        String password = request.getParameter("password_signin").trim();
+        String password = request.getParameter("password_signin");
+        String [] user = null;
         boolean valid = false;
-        if(!"".equals(studentId) && !"".equals(password))
-        {
+        if(!"".equals(studentId) && !"".equals(password)){
         	Integer studentIdNum = Integer.valueOf(studentId);
-            valid = DbManager.validateUser(studentIdNum, password);
-           
+            user = DbManager.validateUser(studentIdNum, password); 
+            if(user != null){ valid = true;}
         }
         
-        if(!valid)
-        {
+        if(!valid){
         	request.setAttribute("ValidUser", valid);
         	RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/login.jsp");
     		dispatcher.forward(request, response);
         }
-        else
-        {
-        	HttpSession session = request.getSession();
-        	String username = (String)request.getAttribute("un");
-        	session.setAttribute("UserName", username);
+        else{
+    		HttpSession session = request.getSession();
+    		session.setAttribute("user_id", user[0]);
+    		session.setAttribute("welcome_logging", user[1]);
         }
     }
     
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
-    	RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/login.jsp");
-		dispatcher.forward(request, response);
+    	HttpSession session = request.getSession();
+    	if(session.getAttribute("user_id") == null){
+        	RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/login.jsp");
+    		dispatcher.forward(request, response);
+    	}
+    	else{
+        	RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/my_profile.jsp");
+    		dispatcher.forward(request, response);
+    	}
     }
  
 }

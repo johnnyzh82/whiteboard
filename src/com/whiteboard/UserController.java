@@ -120,8 +120,8 @@ public class UserController extends HttpServlet {
 		    	request.removeAttribute("valid_id");
 		    	//store session values
 	    		HttpSession session = request.getSession();
-	    		session.setAttribute("user_name", studentId);
-	    		session.setAttribute("welcome_loggin", firstName+" "+lastName);
+	    		session.setAttribute("user_id", studentId);
+	    		session.setAttribute("welcome_logging", firstName+" "+lastName);
 	    		
 		    	//then direct to the my profile page
 		    	RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/signup.jsp");
