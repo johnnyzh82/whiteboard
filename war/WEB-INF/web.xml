@@ -25,6 +25,16 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 		<servlet-name>AddingScheduleServlet</servlet-name>
 		<url-pattern>/insertSchedule</url-pattern>
 	</servlet-mapping>
+
+<!-- Servlet for Ajax call from my schedule page in Jquery UI dialog -->	
+	<servlet>
+		<servlet-name>AddingClassServlet</servlet-name>
+		<servlet-class>ajax.servlet.AddingClassServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AddingClassServlet</servlet-name>
+		<url-pattern>/insertClass</url-pattern>
+	</servlet-mapping>
 	
 <!-- Servlet for login page -->
 	<servlet>

@@ -8,7 +8,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="login.jsp">WhiteBoard</a>
+          <a class="navbar-brand" href="./login">WhiteBoard</a>
         </div>
 
         <div class="navbar-collapse collapse">

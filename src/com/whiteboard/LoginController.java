@@ -34,8 +34,26 @@ public class LoginController extends HttpServlet {
         }
         else{
     		HttpSession session = request.getSession();
-    		session.setAttribute("user_id", user[0]);
+    		session.setAttribute("user_id", Integer.valueOf(user[0]));
     		session.setAttribute("welcome_logging", user[1]);
+    		
+    		boolean hasSchedule = DbManager.hasRecord(Integer.valueOf(user[0]), "wb_schedule");
+    		boolean hasTranscript = DbManager.hasRecord(Integer.valueOf(user[0]), "wb_student_transcript");
+    		session.setAttribute("hasSchedule", hasSchedule);
+    		session.setAttribute("hasTranscript", hasTranscript);
+    		
+    		if(!hasSchedule){
+            	RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/addingSchedule.jsp");
+        		dispatcher.forward(request, response);
+    		}
+    		else if(hasSchedule && !hasTranscript){
+            	RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/insertCourse");
+        		dispatcher.forward(request, response);
+    		}
+    		else if(hasSchedule && hasTranscript){
+            	RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/profile");
+        		dispatcher.forward(request, response);
+    		}
         }
     }
     
@@ -47,7 +65,7 @@ public class LoginController extends HttpServlet {
     		dispatcher.forward(request, response);
     	}
     	else{
-        	RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/my_profile.jsp");
+        	RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/my_profile");
     		dispatcher.forward(request, response);
     	}
     }

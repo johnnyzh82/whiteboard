@@ -9,7 +9,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="login.jsp">Whiteboard</a>
+          <a class="navbar-brand" href="login">Whiteboard</a>
         </div>
 
         <div class="navbar-collapse collapse">

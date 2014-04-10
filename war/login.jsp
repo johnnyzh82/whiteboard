@@ -9,7 +9,7 @@
             <span class="icon-bar"></span>
           </button>
 
-          <a class="navbar-brand" href="#">WhiteBoard</a>
+          <a class="navbar-brand" href="./login">WhiteBoard</a>
         </div>
 
         <div class="navbar-collapse collapse">

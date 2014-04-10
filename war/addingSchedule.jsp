@@ -1,8 +1,6 @@
   <%@ include file="includes/header.jsp" %>
   <link href="lib/css/schedule.css" rel="stylesheet">
   <script type="text/javascript" src="js/schedule.js"></script>
-
-
     <div class="navbar navbar-inverse">
       <div class="container">
           <!-- Brand and toggle get grouped for better mobile display -->
@@ -13,14 +11,13 @@
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="./login.jsp">WhiteBoard</a>
+            <a class="navbar-brand" href="./login">WhiteBoard</a>
           </div>
 
           <!-- Collect the nav links, forms, and other content for toggling -->
           <jsp:include page="includes/searchddl.jsp" />
       </div><!-- /.container-fluid -->
-    </div>
-	
+    </div>	
     <div class="container">
         <div class="panel panel-success">
           <div class="panel-heading">
@@ -30,14 +27,15 @@
 	          <div class="panel-body">
 	          	 <fieldset>
 	                    <legend>
-	                    	<button id="add-schedule" type="button" class="btn btn-primary btn-lg col-md-4 col-md-offset-4">Add New Schedule</button>
+	                    	<button id="add-schedule" type="button" class="btn btn-primary btn-lg col-md-3">Add New Schedule</button>
+	                    	<button id="skip-schedule" type="button" class="btn btn-warning btn-lg col-md-3">Skip</button>
 	                    </legend>
 	                    <div id="dialog" title="Select your schedule:">
 	                    	<table class="table">
 	                    		<tr>	
 	                    			<td><b>Schedule:</b></td>
 	                    			<td width="100px">
-	                    				<input style="width:0px;height:0px;border:none;"/>
+	                    				<input style="width:0px; height:0px; border:none;"/>
 	                    				<input id="start_date" name="start_date" type="text" class="date" />
 	                    			</td>
 	                    			<td width="85px"><input id="start_time" name="start_time" class="time" type="text" /></td>
@@ -112,7 +110,9 @@
 	                    		</tr>
 	                    		<tr>
 	                    			<td><b>Description:</b></td>
-	                    			<td colspan='5'><textarea id="schedule-description" name="schedule-description" class="form-control" rows="3"></textarea></td>
+	                    			<td colspan='5'>
+	                    				<textarea id="schedule-description" name="schedule-description" class="form-control" rows="3"></textarea>
+	                    			</td>
 	                    		</tr>
 							</table>
 		                 </div>

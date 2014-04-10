@@ -10,6 +10,7 @@ public class ScheduleBeanModel {
     private String repeatOption;
     private Integer interval;
     private String weeklyDays;
+    private String description;
 
 	public Integer getStudentId() {
 		return studentId;
@@ -78,6 +79,16 @@ public class ScheduleBeanModel {
 
 	public void setWeeklyDays(String weeklyDays) {
 		this.weeklyDays = weeklyDays;
+	}
+
+
+	public String getDescription() {
+		return description;
+	}
+
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 	
 //	public String toString(){		

@@ -8,20 +8,21 @@ import connection.config.ConnectionManager;
 
 public class DbManager {
 	private static Connection conn = ConnectionManager.getInstance().getConnection();
+
 	public static String[] validateUser(Integer inputStudentId,  String inputPassword)
 	{
+		
 		String [] idAndName = null;
 		try {	
 			//Constructing the SQL query
 			Integer studentId = 0;
 			String password = null;
 			String name = null;
-			
 			String existence_sql = "SELECT Count(*) as num FROM wb_students where student_id = ?;";
 			PreparedStatement pstmt1 = conn.prepareStatement(existence_sql);
 			pstmt1.setInt(1, inputStudentId);
 			ResultSet rs1 = pstmt1.executeQuery();
-			
+
 			int count = 0;
 			while (rs1.next()) {
 				count  = rs1.getInt("num");
@@ -37,13 +38,16 @@ public class DbManager {
 					password = rs2.getString("password");
 					name = rs2.getString("first_name") + ","+ rs2.getString("last_name");
 				}
-				ConnectionManager.getInstance().closeConnection();
 				idAndName = new String[2];
 				if(studentId.equals(inputStudentId) && password.equals(inputPassword)) {
 					idAndName[0] = studentId + "";
 					idAndName[1] = name;
 				} 
+				pstmt2.close();
+				rs2.close();
 			}
+			pstmt1.close();
+			rs1.close();
 		} 
 		catch (SQLException e1){
 			e1.printStackTrace();
@@ -63,7 +67,6 @@ public class DbManager {
 		Integer zipcode = user.getZipcode();
 		boolean isPrivate = user.isPrivate();
 		
-//		ConstructClass.constructClass();
 		String insert_sql = "INSERT INTO wb_students values(?,?,?,?,?,?,?,?,?,?,?);";
 		try {
 			PreparedStatement dbStatement = conn.prepareStatement(insert_sql);
@@ -79,12 +82,38 @@ public class DbManager {
 			dbStatement.setInt(10, 1);
 			dbStatement.setBoolean(11, isPrivate);
 			dbStatement.executeUpdate();
-			ConnectionManager.getInstance().closeConnection();
+			dbStatement.close();
 			return true;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return false;
 		}
+	}
+	
+	public static boolean hasRecord(Integer student_id, String table){
+		boolean hasRecord = false;
+		try {	
+			//Constructing the SQL query
+			String sql = "SELECT Count(*) as num FROM " + table + " where student_id = ?;";
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, student_id);
+			ResultSet rs = pstmt.executeQuery();
+			
+			int count = 0;
+			while (rs.next()) {
+				count  = rs.getInt("num");
+			}
+			
+			if(count > 0){
+				hasRecord = true;
+			}
+			pstmt.close();
+			rs.close();
+		} 
+		catch (SQLException e1){
+			e1.printStackTrace();
+		}
+		return hasRecord;
 	}
 }

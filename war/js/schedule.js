@@ -16,16 +16,84 @@ var startDate = null;
 var endDate = null;
 var description = null;
 
-$(function() {
-    $( '#start_time' ).timepicker();
-    $( '#end_time' ).timepicker();
-    $( '#start_time' ).timepicker('setTime', new Date());
-    $( '#end_time' ).timepicker('setTime', new Date());
+
+function regularizeVariables(){
+	repeatOption = (repeatOption == null) ? "" : repeatOption;
+	repeatDay = (repeatDay == null) ? "" : repeatDay;
+	repeatMonth = (repeatMonth == null) ? "" : repeatMonth;
+	repeatWeek = (repeatWeek == null) ? "" : repeatWeek;
+	startTime = (startTime == null) ? "" : startTime;
+	endTime = (endTime == null) ? "" : endTime;
+	startDate = (startDate == null) ? "" : startDate;
+	endDate = (endDate == null) ? "" : endDate;
+	description = (description == null) ? "" : description;
+}
+
+function setDateAndTime(){
+	startDate = $('#start_date').val();
+	endDate = $('#end_date').val();
+	startTime = $('#start_time').val();
+	endTime  = $("#end_time").val();
+	description  = $("#schedule-description").val();
+	$("#time-summary").html("From " + startDate + " " + startTime + " to " + endDate + " " + endTime);
+}
+/*
+ * Full calendar plug in 
+ */
+$(document).ready(function() { 
+    var date = new Date();
+    var d = date.getDate();
+    var m = date.getMonth();
+    var y = date.getFullYear();
+    var calendar = $('#calendar').fullCalendar({
+    //configure options for the calendar
+       header: {
+          left: 'prev,next today',
+          center: 'title',
+          right: 'month,agendaWeek,agendaDay'
+       },
+       // this is where you specify where to pull the events from.
+       editable:false,
+       weekMode:'liquid'
+       //etc etc
+    });
+    
+    /*
+     * add schedule button event handler
+     */
+    $('#add-schedule').click(function () {
+    	$("#dialog").dialog('open');
+    });
+    
+    $('#skip-schedule').click(function () {
+ 	    $.ajax({
+	        type: "POST",
+	        url: "insertClass",
+	        success: function (data) {
+	        },
+	        error: function (request, status, error) {
+	            console.log(request.responseText);
+	        }
+	    });
+    });
+    
+    $( '#start_date' ).datepicker({});
+    $( '#end_date' ).datepicker({});
     $( "#start_date" ).datepicker("setDate", 'today');
     $( "#end_date" ).datepicker("setDate", 'today');
+    
+    
+    $( '#start_time' ).timepicker({ 'timeFormat': 'h:i a' });
+    $( '#end_time' ).timepicker({ 'timeFormat': 'h:i a' });
+    $( '#start_time' ).timepicker('setTime', new Date());
+    $( '#end_time' ).timepicker('setTime', new Date());
+
     $( ".repeat-mode" ).hide();
     $( "#repeat-summary" ).html("");
+    $( "input").blur();
     setDateAndTime();
+    
+    
     /*
      * This triggers the change time function that only shows the time after the time picked in the first date picker
      * and also display the duration in the second date picker
@@ -194,19 +262,27 @@ $(function() {
    		    repeatDay = null;
    	   } 	   
    });
-});
-
-$(function() {
-    $( "#dialog" ).dialog({
-    	 autoOpen: false,
-         maxWidth:700,
-         maxHeight: 550,
-         width: 700,
-         height: 550,
-         modal: true,
-         buttons: {
+   
+   $( "#dialog" ).dialog({
+  	 autoOpen: false,
+       maxWidth:700,
+       maxHeight: 550,
+       width: 700,
+       height: 550,
+       modal: true,
+       buttons: {
 	         "Create": function() {
 	        	 	setDateAndTime();
+	        	 	regularizeVariables();
+					 console.log(isScheduleRepeat);
+					 console.log(repeatOption == "");
+					 console.log(repeatDay == "");
+					 console.log(repeatMonth == "");
+					 console.log(repeatWeek == "");
+					 console.log(startTime);
+					 console.log(endTime);
+					 console.log(startDate);
+					 console.log(endDate);
 		     	    $.ajax({
 		    	        type: "POST",
 		    	        url: "insertSchedule",
@@ -214,7 +290,7 @@ $(function() {
 		    	        		"repeatOption":repeatOption,
 		    	        		"repeatDay":repeatDay,
 		    	        		"repeatMonth":repeatMonth,
-		    	        		"repeatWeek":JSON.stringify(repeatWeek),
+		    	        		"repeatWeek":(repeatWeek == "") ? "" : JSON.stringify(repeatWeek),
 		    	        		"startTime":startTime,
 		    	        		"endTime":endTime,
 		    	        		"startDate":startDate,
@@ -223,15 +299,7 @@ $(function() {
 		    	        success: function (data) {
 		    	        	 //success insert data		   	        	 
 							 //for debugging purposes
-							 console.log(isScheduleRepeat);
-							 console.log(repeatOption + "option");
-							 console.log(repeatDay + "day");
-							 console.log(repeatMonth + "month");
-							 console.log(repeatWeek);
-							 console.log(startTime);
-							 console.log(endTime);
-							 console.log(startDate);
-							 console.log(endDate);
+	
 							
 //							 alert("created");
 							//$(this).dialog("close");
@@ -244,45 +312,10 @@ $(function() {
 	         Cancel: function() {
 	        	 $(this).dialog("close");
 	         }
-         },
-         close: function() {
-         }	
-   });
-});
-
-function setDateAndTime(){
-	startDate = $('#start_date').val();
-	endDate = $('#end_date').val();
-	startTime = $('#start_time').val();
-	endTime  = $("#end_time").val();
-	description  = $("#schedule-description").val();
-	$("#time-summary").html("From " + startDate + " " + startTime + " to " + endDate + " " + endTime);
-}
-/*
- * Full calendar plug in 
- */
-$(document).ready(function() { 
-    var date = new Date();
-    var d = date.getDate();
-    var m = date.getMonth();
-    var y = date.getFullYear();
-    var calendar = $('#calendar').fullCalendar({
-    //configure options for the calendar
-       header: {
-          left: 'prev,next today',
-          center: 'title',
-          right: 'month,agendaWeek,agendaDay'
        },
-       // this is where you specify where to pull the events from.
-       editable:false,
-       weekMode:'liquid'
-       //etc etc
-    });
-    
-    /*
-     * add schedule button event handler
-     */
-    $('#add-schedule').click(function () {
-    	$("#dialog").dialog('open')
-    });
+       close: function() {
+       }	
+ });
+   
+
 });

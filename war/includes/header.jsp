@@ -22,28 +22,25 @@
 	<script src="lib/jquery-ui-1.10.4.custom/js/jquery-ui-1.10.4.custom.js"></script>
     
     <!-- full calendar api  -->
-      <link rel="stylesheet" href="lib/fullcalendar-1.6.4/fullcalendar/fullcalendar.css">
-      <link rel="stylesheet" href="lib/fullcalendar-1.6.4/fullcalendar/fullcalendar.print.css">
-      <script src="lib/fullcalendar-1.6.4/fullcalendar/fullcalendar.js"></script>
+    <link rel="stylesheet" href="lib/fullcalendar-1.6.4/fullcalendar/fullcalendar.css">
+    <link rel="stylesheet" href="lib/fullcalendar-1.6.4/fullcalendar/fullcalendar.print.css">
+    <script src="lib/fullcalendar-1.6.4/fullcalendar/fullcalendar.js"></script>
     
     <!-- Bootstrap core CSS -->
     <link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
-    <link href="lib/css/signin.css" rel="stylesheet">
     
     <script type="text/javascript" src="lib/timepicker/jquery.timepicker.js"></script>
   	<link href="lib/timepicker/jquery.timepicker.css" rel="stylesheet">
   	
-  	<script type="text/javascript" src="lib/datepicker/js/bootstrap-datepicker.js"></script>
-  	<link href="lib/datepicker/css/datepicker.css" rel="stylesheet">
+    <!-- <script type="text/javascript" src="lib/datepicker/js/bootstrap-datepicker.js"></script>
+  	<link href="lib/datepicker/css/datepicker.css" rel="stylesheet"> -->
   	
+    <!-- Custom styles for this template -->
+    <link href="lib/css/signin.css" rel="stylesheet">
 
   </head>
   <body>
   <script type="text/javascript" src="./js/login.js"></script>
-
-  
   <div class="navbar navbar-inverse level-one">
     <div class="container logo-container"> 
       <a href="http://www.stonybrook.edu/">
