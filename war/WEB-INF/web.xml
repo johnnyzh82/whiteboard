@@ -28,12 +28,42 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 
 <!-- Servlet for Ajax call from my schedule page in Jquery UI dialog -->	
 	<servlet>
-		<servlet-name>AddingClassServlet</servlet-name>
-		<servlet-class>ajax.servlet.AddingClassServlet</servlet-class>
+		<servlet-name>LoadingScheduleServlet</servlet-name>
+		<servlet-class>ajax.servlet.LoadingScheduleServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>AddingClassServlet</servlet-name>
-		<url-pattern>/insertClass</url-pattern>
+		<servlet-name>LoadingScheduleServlet</servlet-name>
+		<url-pattern>/loadSchedule</url-pattern>
+	</servlet-mapping>
+	
+<!-- Servlet for Ajax call from my schedule page in Jquery UI dialog -->	
+	<servlet>
+		<servlet-name>LoadingSchedulesServlet</servlet-name>
+		<servlet-class>ajax.servlet.LoadingSchedulesServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>LoadingSchedulesServlet</servlet-name>
+		<url-pattern>/loadSchedules</url-pattern>
+	</servlet-mapping>
+	
+<!-- Servlet for Ajax call from my schedule page in Jquery UI dialog -->	
+	<servlet>
+		<servlet-name>UpdateScheduleServlet</servlet-name>
+		<servlet-class>ajax.servlet.UpdateScheduleServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>UpdateScheduleServlet</servlet-name>
+		<url-pattern>/updateSchedule</url-pattern>
+	</servlet-mapping>
+	
+<!-- Servlet for Ajax call from my schedule page in Jquery UI dialog -->	
+	<servlet>
+		<servlet-name>DeleteScheduleServlet</servlet-name>
+		<servlet-class>ajax.servlet.DeleteScheduleServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>DeleteScheduleServlet</servlet-name>
+		<url-pattern>/deleteSchedule</url-pattern>
 	</servlet-mapping>
 	
 <!-- Servlet for login page -->

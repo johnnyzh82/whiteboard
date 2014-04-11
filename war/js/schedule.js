@@ -2,320 +2,216 @@
  * Schedule.js is used to render the jquery ui dialog containing one individual schedule for saving
  */
 
-
-var minTime = null;
-var minDate = null;
-var isScheduleRepeat = false;
-var repeatOption = null;
-var repeatDay = null;
-var repeatMonth = null;
-var repeatWeek = null;
-var startTime = null;
-var endTime = null;
-var startDate = null;
-var endDate = null;
-var description = null;
-
-
-function regularizeVariables(){
-	repeatOption = (repeatOption == null) ? "" : repeatOption;
-	repeatDay = (repeatDay == null) ? "" : repeatDay;
-	repeatMonth = (repeatMonth == null) ? "" : repeatMonth;
-	repeatWeek = (repeatWeek == null) ? "" : repeatWeek;
-	startTime = (startTime == null) ? "" : startTime;
-	endTime = (endTime == null) ? "" : endTime;
-	startDate = (startDate == null) ? "" : startDate;
-	endDate = (endDate == null) ? "" : endDate;
-	description = (description == null) ? "" : description;
+function pad(str, max) {
+	str = str.toString();
+	return str.length < max ? pad("0" + str, max) : str;
 }
 
-function setDateAndTime(){
-	startDate = $('#start_date').val();
-	endDate = $('#end_date').val();
-	startTime = $('#start_time').val();
-	endTime  = $("#end_time").val();
-	description  = $("#schedule-description").val();
-	$("#time-summary").html("From " + startDate + " " + startTime + " to " + endDate + " " + endTime);
-}
-/*
- * Full calendar plug in 
- */
+var globalEventId = null;
 $(document).ready(function() { 
-    var date = new Date();
-    var d = date.getDate();
-    var m = date.getMonth();
-    var y = date.getFullYear();
+    //full calendar
+	$("#dialog").dialog({
+		autoOpen : false,
+		maxWidth : 700,
+		maxHeight : 400,
+		width : 700,
+		height : 400,
+		modal : true,
+		buttons : {
+			"Create" : function() {
+				 var currentDate = $( '#schedule_date' ).text();
+				 var startTime =  $( '#start_time' ).val();
+				 var endTime =  $( '#end_time' ).val();
+				 var title =  $( '#schedule_title' ).val();
+				 var description =  $( '#schedule_description' ).val();
+				 
+				 var startHour = parseInt(startTime.substring(0,2));
+				 var endHour = parseInt(endTime.substring(0,2));
+				 if(startTime.trim() == "" || endTime.trim() == "" || title.trim() == ""){
+					 alert("You must fill the start time and end time.");
+				 }
+				 else if(startHour > endHour){
+					 alert("Your start time and end time are not valid.");
+				 }
+				 else{
+					 var $this = $(this); 
+					 $.ajax({
+						 type: "POST",
+						 url: "/insertSchedule",
+						 data: { "date":currentDate,
+								 "startTime":startTime,
+								 "endTime":endTime,
+								 "title":title,
+								 "description":description },
+						 success: function (data) {
+							 if(data.succeed){
+								 alert("Schedule has been succesfully created.");
+								 $this.dialog("close");
+								 $('#calendar').fullCalendar( 'refetchEvents' );
+							 }
+							 else{
+								 alert("Schedule failed to be created.")
+							 }
+						 },
+						 error: function (request, status, error) {
+							 console.log(request.responseText);
+						 }
+					 });
+				 }
+			},
+			Update: function(){
+				 var currentDate = $( '#schedule_date' ).text();
+				 var startTime =  $( '#start_time' ).val();
+				 var endTime =  $( '#end_time' ).val();
+				 var title =  $( '#schedule_title' ).val();
+				 var description =  $( '#schedule_description' ).val();
+				 var startHour = parseInt(startTime.substring(0,2));
+				 var endHour = parseInt(endTime.substring(0,2));
+				 if(startTime.trim() == "" || endTime.trim() == "" || title.trim() == ""){
+					 alert("You must fill the start time and end time.");
+				 }
+				 else if(startHour > endHour){
+					 alert("Your start time and end time are not valid.");
+				 }
+				 else{
+					 var $this = $(this); 
+					 $.ajax({
+						 type: "POST",
+						 url: "/updateSchedule",
+						 data: { "id":globalEventId,
+							 	 "date":currentDate,
+								 "startTime":startTime,
+								 "endTime":endTime,
+								 "title":title,
+								 "description":description },
+						 success: function (data) {
+							 if(data.succeed){
+								 alert("Schedule has been succesfully updated.");
+								 $this.dialog("close");
+								 $('#calendar').fullCalendar( 'refetchEvents' );
+								 
+							 }
+							 else{
+								 alert("Schedule failed to be updated.")
+							 }
+						 },
+						 error: function (request, status, error) {
+							 console.log(request.responseText);
+						 }
+					 });
+				 }
+			},
+			Delete: function(){
+				var confirm = window.confirm("Delete this schedule?");
+				if (confirm) {
+					 var $this = $(this);
+					 $.ajax({
+						 type: "POST",
+						 url: "/deleteSchedule",
+						 data: { "id":globalEventId },
+						 success: function (data) {
+							 if(data.succeed){
+								 alert("Schedule has been succesfully deleted.");
+								 $this.dialog("close");
+								 $('#calendar').fullCalendar( 'refetchEvents' );
+							 }
+							 else{
+								 alert("Schedule failed to be deleted.")
+							 }
+						 },
+						 error: function (request, status, error) {
+							 console.log(request.responseText);
+						 }
+					 });
+				}
+			},
+			Cancel : function() {
+				$(this).dialog("close");
+			}
+		},
+		close : function() {
+		}
+	});
+	
     var calendar = $('#calendar').fullCalendar({
     //configure options for the calendar
        header: {
           left: 'prev,next today',
           center: 'title',
-          right: 'month,agendaWeek,agendaDay'
+          right: 'month,agendaWeek'
        },
        // this is where you specify where to pull the events from.
        editable:false,
-       weekMode:'liquid'
-       //etc etc
-    });
-    
-    /*
-     * add schedule button event handler
-     */
-    $('#add-schedule').click(function () {
-    	$("#dialog").dialog('open');
-    });
-    
-    $('#skip-schedule').click(function () {
- 	    $.ajax({
-	        type: "POST",
-	        url: "insertClass",
-	        success: function (data) {
-	        },
-	        error: function (request, status, error) {
-	            console.log(request.responseText);
-	        }
-	    });
-    });
-    
-    $( '#start_date' ).datepicker({});
-    $( '#end_date' ).datepicker({});
-    $( "#start_date" ).datepicker("setDate", 'today');
-    $( "#end_date" ).datepicker("setDate", 'today');
-    
-    
-    $( '#start_time' ).timepicker({ 'timeFormat': 'h:i a' });
-    $( '#end_time' ).timepicker({ 'timeFormat': 'h:i a' });
-    $( '#start_time' ).timepicker('setTime', new Date());
-    $( '#end_time' ).timepicker('setTime', new Date());
+       disableResizing: true,
+       disableDragging: true,
+       weekMode:'liquid',
+       dayClick: function(date, allDay, jsEvent, view) {  
+    	   if (allDay) {
+    		   	$('.ui-button:contains(Update)').hide()
+				$('.ui-button:contains(Delete)').hide()
+				alert('Clicked on the entire day: ' + date);
+				var year = pad(date.getFullYear(),4);
+				var month = pad(date.getMonth()+1,2);
+				var day = pad(date.getDate(),2);
+			    $( '#schedule_date' ).html(year+"-"+month+"-"+day);
+			    $( '#start_time' ).timepicker({ 'timeFormat': 'H:i','forceRoundTime': true });
+			    $( '#end_time' ).timepicker({ 'timeFormat': 'H:i','forceRoundTime': true });
+			    //open ui dialog
+			    $("#dialog").dialog('open');
+           }
+    	   //unimplemented
+           else{
+               alert('Clicked on the slot: ' + date);
+           }
+//           alert('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
+           alert('Current view: ' + view.name);
+           alert('what is allday: ' + allDay);
 
-    $( ".repeat-mode" ).hide();
-    $( "#repeat-summary" ).html("");
-    $( "input").blur();
-    setDateAndTime();
-    
-    
-    /*
-     * This triggers the change time function that only shows the time after the time picked in the first date picker
-     * and also display the duration in the second date picker
-     */
-    $('#start_time').on('changeTime', function() {
-    	minTime = $(this).val();
-        $('#end_time').timepicker({
-        	'minTime': minTime,
-            'maxTime': '11:59am',
-        });
-        setDateAndTime();
-	});
-    
-    /*
-     * event handler for the end time summary
-     */
-    $('#end_time').on('changeTime', function() {
-    	setDateAndTime();
-	});
-    /*
-     * Triggers the all day check box that fills up the two time text input
-     */
-    $('input[name=all_day]').click(function () {
-    	if($(this).is(':checked')){
-        	$('#start_time').timepicker('setTime', "12:00am");
-        	$('#end_time').timepicker('setTime', "11:59pm");
-        	$('#start_date').datepicker('setDate', 'today');
-        	$('#end_date').datepicker('setDate', 'today');
-    	}
-    	setDateAndTime();
-    }); 
-    /*
-     * Repeat check box trigger event handler
-     */
-    $('input[name=repeat]').click(function () {
-    	if($(this).is(':checked')){ 
-    		$( "#repeat-option td select option[value=day]" ).prop('selected', true);
-    		repeatOption = $('#repeat-option td select').find(":selected").text();
-    		repeatDay = parseInt($('#repeat-daily td select').find(":selected").text());
-    		$("#repeat-summary").html("Repeat every " + repeatDay + " day(s)");
-    		$( "#repeat-option" ).show();
-    		$( "#repeat-daily" ).show();
-    		isScheduleRepeat = true;
-    	}
-    	else{ 
-    		$( ".repeat-mode" ).hide(); 
-    		isScheduleRepeat = false;
-    		$("#repeat-summary").html("");
-    	}
-    }); 
-    
-    /*
-     * 	Checkboxes click event handler 
-     */
-    $('input[name=repeat-day]').click(function () {
-		repeatWeek = new Array();
-		$("input:checkbox[name=repeat-day]:checked").each(function() {
-			repeatWeek.push($(this).val());
-		});
-		 
-		var message = "Repeat weekly on ";
-		$("input:checkbox[name=repeat-day]:checked").each(function() {
-			message += " " + $(this).val();
-		});
-		$("#repeat-summary").html(message);
-    }); 
-
-    
-	 // initialize the days and months
-	 if(isScheduleRepeat == true){
-		 repeatOption = $('#repeat-option td select').find(":selected").val();
-		 if(repeatOption == 'monthly'){
-			 repeatMonth = parseInt($('#repeat-monthly td select').find(":selected").text());
-			 $("#repeat-summary").html("Repeat every " + repeatMonth + " month(s)");
-		 }
-		 else if(repeatOption == 'day' ){
-			 repeatDay = parseInt($('#repeat-daily td select').find(":selected").text());
-			 $("#repeat-summary").html("Repeat every " + repeatDay + " day(s)");
-		 }
-		 //get all days from check box and time
-		 else if(repeatOption == 'weekly'){
-			 repeatWeek = new Array();
-		   	 $("input:checkbox[name=repeat-day]:checked").each(function() {
-		   		 repeatWeek.push($(this).val());
-		   	 });
-		 }
-	 }
-	 
-   /*
-    * repeat daily event handler
-    */
-   $("#repeat-daily td select").change(function () {
-	   var repeat = $(this).val();
-	   $("#repeat-summary").html("Repeat every " + repeat + " day(s)");
-	   repeatDay = parseInt(repeat);
-	});
-	
-   /*
-    * repeat month event handler
-    */
-   $("#repeat-monthly td select").change(function () {
- 	   var repeat = $(this).val();
- 	   $("#repeat-summary").html("Repeat every " + repeat + " month(s)");
- 	   repeatMonth = parseInt(repeat);
- 	});
-   
-   /*
-    * Repeat option event handler
-    */
-   $("#repeat-option td select").change(function () {
-   	   var txt = $(this).val();
-   	   repeatOption = txt;
-   	   if(txt == 'day'){
-		    $( "#repeat-daily" ).show();
-		    $( "#repeat-weekly" ).hide();
-		    $( "#repeat-monthly" ).hide();
-		    repeatMonth = null;
-		    var r = parseInt($('#repeat-daily td select').find(":selected").text());
-		    $("#repeat-summary").html("Repeat every " + r + " day(s)");
-   	   }
-   	   else if(txt == 'weekday'){
-   		    $( "#repeat-daily" ).hide();
-   		    $( "#repeat-weekly" ).hide();
-   		    $( "#repeat-monthly" ).hide();
-   		    repeatDay = null;
-   		    repeatMonth = null;
-   		    $("#repeat-summary").html("Repeat every Monday to Friday");
-   		    repeatWeek = ['monday','tuesday','wednesday','thursday','friday'];
-   	   }
-   	   else if(txt == 'MWF'){
-   		    $( "#repeat-daily" ).hide();
-   		    $( "#repeat-weekly" ).hide();
-   		    $( "#repeat-monthly" ).hide();
-   		    repeatDay = null;
-   		    repeatMonth = null;
-   		    $("#repeat-summary").html("Repeat every Monday, Wednesday and Friday");
-   		    repeatWeek = ['monday','wednesday','friday'];
-   	   }
-   	   else if(txt == 'TH'){
-   		    $( "#repeat-daily" ).hide();
-   		    $( "#repeat-weekly" ).hide();
-   		    $( "#repeat-monthly" ).hide();
-   		    repeatDay = null;
-   		    repeatMonth = null;
-   		    $("#repeat-summary").html("Repeat every Tuesday and Thursday");
-   		    repeatWeek = ['tuesday','thursday'];
-   	   }
-   	   else if(txt == 'weekly'){
-   		    $( "#repeat-daily" ).hide();
-   		    $( "#repeat-weekly" ).show();
-   		    $( "#repeat-monthly" ).hide();
-   		    $("#repeat-summary").html("Repeat weekly on");
-			 repeatWeek = new Array();
-		   	 $("input:checkbox[name=repeat-day]:checked").each(function() {
-		   		 repeatWeek.push($(this).val());
-		   	 });
-   		    repeatMonth = null;
-   		    repeatDay = null;
-   	   }
-   	   else if(txt == 'monthly'){
-   		    $( "#repeat-daily" ).hide();
-   		    $( "#repeat-weekly" ).hide();
-   		    $( "#repeat-monthly" ).show(); 
-   		    var r = parseInt($('#repeat-monthly td select').find(":selected").text());
-   		    $("#repeat-summary").html("Repeat every " + r + " month(s)");
-   		    repeatDay = null;
-   	   } 	   
-   });
-   
-   $( "#dialog" ).dialog({
-  	 autoOpen: false,
-       maxWidth:700,
-       maxHeight: 550,
-       width: 700,
-       height: 550,
-       modal: true,
-       buttons: {
-	         "Create": function() {
-	        	 	setDateAndTime();
-	        	 	regularizeVariables();
-					 console.log(isScheduleRepeat);
-					 console.log(repeatOption == "");
-					 console.log(repeatDay == "");
-					 console.log(repeatMonth == "");
-					 console.log(repeatWeek == "");
-					 console.log(startTime);
-					 console.log(endTime);
-					 console.log(startDate);
-					 console.log(endDate);
-		     	    $.ajax({
-		    	        type: "POST",
-		    	        url: "insertSchedule",
-		    	        data: { "isRepeat":isScheduleRepeat,
-		    	        		"repeatOption":repeatOption,
-		    	        		"repeatDay":repeatDay,
-		    	        		"repeatMonth":repeatMonth,
-		    	        		"repeatWeek":(repeatWeek == "") ? "" : JSON.stringify(repeatWeek),
-		    	        		"startTime":startTime,
-		    	        		"endTime":endTime,
-		    	        		"startDate":startDate,
-		    	        		"endDate":endDate,
-		    	        		"description":description	},
-		    	        success: function (data) {
-		    	        	 //success insert data		   	        	 
-							 //for debugging purposes
-	
-							
-//							 alert("created");
-							//$(this).dialog("close");
-		    	        },
-		    	        error: function (request, status, error) {
-		    	            console.log(request.responseText);
-		    	        }
-		    	    });
-	         },
-	         Cancel: function() {
-	        	 $(this).dialog("close");
-	         }
        },
-       close: function() {
-       }	
- });
-   
-
+       
+       events: {
+           url: '/loadSchedules',
+           type: 'POST',
+           error: function() {
+               alert('there was an error while fetching events!');
+           }
+       },
+       
+       eventClick: function(calEvent, jsEvent, view) {
+    	   alert('Event: ' + calEvent.id);
+           alert('Event: ' + calEvent.title);
+           alert('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
+           alert('View: ' + view.name);
+           var eventId = calEvent.id;
+           globalEventId = eventId;
+           $.ajax({
+				 type: "POST",
+				 url: "/loadSchedule",
+				 data: { "id":eventId },
+				 success: function (data) {
+					 if(data!=null){
+						$('.ui-button:contains(Create)').hide()
+					    $( '#schedule_date' ).html(data.date);
+					    $( '#start_time' ).timepicker({ 'timeFormat': 'H:i','forceRoundTime': true });
+					    $( '#start_time' ).timepicker('setTime', data.start);
+					    $( '#end_time' ).timepicker({ 'timeFormat': 'H:i','forceRoundTime': true });
+					    $( '#end_time' ).timepicker('setTime', data.end);
+					    $( '#schedule_title' ).val(data.title);
+					    $( '#schedule_description' ).val(data.description);
+					    //open ui dialog
+					    $("#dialog").dialog('open');
+						alert("Schedule has been succesfully created.");
+					 }
+					 else{
+						 alert("Schedule failed to be created.")
+					 }
+				 },
+				 error: function (request, status, error) {
+					 console.log(request.responseText);
+				 }
+			 });
+       }
+    //end of full calendar
+    });
+//end of document ready
 });

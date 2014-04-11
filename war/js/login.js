@@ -11,31 +11,9 @@ function validSignIn()
 		$('tr#account_blank').show();
 		return false;
     } 
-	else
-	{
-		$('tr#account_blank').hide();
-	    $.ajax({
-	        type: "POST",
-	        url: "validId",
-	        data: {"id":student_id},
-	        success: function (data) {
-//			    console.log(data.valid);
-			    var valid = data.valid;
-	            if(!valid)
-	            {
-	            	$('input[name=student_id_signin]').removeClass('good-id');
-		            $('input[name=student_id_signin]').addClass('error-shadow');
-	            }
-	            else if(valid)
-	            {
-	            	$('input[name=student_id_signin]').removeClass('error-shadow');
-	            	$('input[name=student_id_signin]').addClass('good-id');
-	            }
-	        }
-	    });
-		return true;
-	}
+	return true;
 }
+
 	
 $( document ).ready(function() {
 	// Handler for .ready() called.

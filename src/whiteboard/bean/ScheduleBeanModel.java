@@ -1,16 +1,23 @@
 package whiteboard.bean;
 
-import java.util.Date;
-
 public class ScheduleBeanModel {
+	private Integer schedule_id;
 	private Integer studentId;
-    private Date start;
-    private Date end;
-    private boolean repeat;
-    private String repeatOption;
-    private Integer interval;
-    private String weeklyDays;
+	private String title;
+    private String date;
+    private String startTime;
+    private String endTime;
     private String description;
+
+	public Integer getSchedule_id() {
+		return schedule_id;
+	}
+
+
+	public void setSchedule_id(Integer schedule_id) {
+		this.schedule_id = schedule_id;
+	}
+
 
 	public Integer getStudentId() {
 		return studentId;
@@ -22,63 +29,43 @@ public class ScheduleBeanModel {
 	}
 
 
-	public Date getStart() {
-		return start;
+	public String getTitle() {
+		return title;
 	}
 
 
-	public void setStart(Date start) {
-		this.start = start;
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 
-	public Date getEnd() {
-		return end;
+	public String getDate() {
+		return date;
 	}
 
 
-	public void setEnd(Date end) {
-		this.end = end;
+	public void setDate(String date) {
+		this.date = date;
 	}
 
 
-	public boolean isRepeat() {
-		return repeat;
+	public String getStartTime() {
+		return startTime;
 	}
 
 
-	public void setRepeat(boolean repeat) {
-		this.repeat = repeat;
+	public void setStartTime(String startTime) {
+		this.startTime = startTime;
 	}
 
 
-	public String getRepeatOption() {
-		return repeatOption;
+	public String getEndTime() {
+		return endTime;
 	}
 
 
-	public void setRepeatOption(String repeatOption) {
-		this.repeatOption = repeatOption;
-	}
-
-
-	public Integer getInterval() {
-		return interval;
-	}
-
-
-	public void setInterval(Integer interval) {
-		this.interval = interval;
-	}
-
-
-	public String getWeeklyDays() {
-		return weeklyDays;
-	}
-
-
-	public void setWeeklyDays(String weeklyDays) {
-		this.weeklyDays = weeklyDays;
+	public void setEndTime(String endTime) {
+		this.endTime = endTime;
 	}
 
 
@@ -90,8 +77,7 @@ public class ScheduleBeanModel {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+
+
 	
-//	public String toString(){		
-//		return 'aa';
-//	}
 }

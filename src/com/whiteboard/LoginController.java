@@ -47,11 +47,11 @@ public class LoginController extends HttpServlet {
         		dispatcher.forward(request, response);
     		}
     		else if(hasSchedule && !hasTranscript){
-            	RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/insertCourse");
+            	RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/addingSchedule.jsp");
         		dispatcher.forward(request, response);
     		}
     		else if(hasSchedule && hasTranscript){
-            	RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/profile");
+            	RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/addingSchedule.jsp");
         		dispatcher.forward(request, response);
     		}
         }
@@ -65,7 +65,7 @@ public class LoginController extends HttpServlet {
     		dispatcher.forward(request, response);
     	}
     	else{
-        	RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/my_profile");
+        	RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/login.jsp");
     		dispatcher.forward(request, response);
     	}
     }

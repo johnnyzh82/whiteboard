@@ -14,15 +14,15 @@ import whiteboard.bean.ScheduleBeanModel;
 import com.google.appengine.labs.repackaged.org.json.JSONException;
 import com.google.appengine.labs.repackaged.org.json.JSONObject;
 
-public class AddingScheduleServlet extends HttpServlet {
+public class DeleteScheduleServlet extends HttpServlet {
  
     private static final long serialVersionUID = 1L;
  
     /***************************************************
-     * URL: /AddscheduleServlet
+     * URL: /updateScheduleServlet
      * doPost(): receives JSON , parse it, map it and send back as JSON
      ****************************************************/
-    public AddingScheduleServlet() {  
+    public DeleteScheduleServlet() {  
         super();   
     }  
     
@@ -32,35 +32,19 @@ public class AddingScheduleServlet extends HttpServlet {
     }
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException{
-    	String date = request.getParameter("date");
-    	String title = request.getParameter("title");
-    	String startTime = request.getParameter("startTime");
-    	String endTime = request.getParameter("endTime");
-    	String description = request.getParameter("description");
-
-    	
+    	String id = request.getParameter("id");
     	/*
     	 * call the ajax manager and store everything to bean
     	 */
-    	HttpSession session = request.getSession();
-		Integer student_id = (Integer) session.getAttribute("user_id");
-    	ScheduleBeanModel schedule = new ScheduleBeanModel();
-    	
-    	schedule.setStudentId(student_id);
-    	schedule.setTitle(title);
-    	schedule.setDate(date);
-    	schedule.setStartTime(startTime);
-    	schedule.setEndTime(endTime);
-    	if(description != null && !description.equals("")){ schedule.setDescription(description); }
-    	
-    	boolean valid = AjaxDBManager.insertSchedule(schedule);
+    	Integer schedule_id = Integer.valueOf(id);	
+    	boolean succeed = AjaxDBManager.deleteSchedule(schedule_id);
     	
     	JSONObject json = new JSONObject();
     	response.setContentType("text/json");  
     	// Set content type of the response so that jQuery knows what it can expect.
 	    response.setCharacterEncoding("UTF-8");
 	    try {
-			json.put("succeed", valid);
+			json.put("succeed", succeed);
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

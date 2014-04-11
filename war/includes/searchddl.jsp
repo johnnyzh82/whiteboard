@@ -9,8 +9,7 @@
 		 <li class="dropdown" data-dropdown="dropdown">
 			<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 			  <span class="glyphicon glyphicon-user"></span>
-			  <span class="user_name">
-			  <c:out value="${sessionScope.welcome_logging}" ></c:out></span>
+			  <span class="user_name"><c:out value="${sessionScope.welcome_logging}" ></c:out></span>
 			  <b class="caret"></b>
 			</a>
 			<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">

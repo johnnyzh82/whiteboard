@@ -27,91 +27,35 @@
 	          <div class="panel-body">
 	          	 <fieldset>
 	                    <legend>
-	                    	<button id="add-schedule" type="button" class="btn btn-primary btn-lg col-md-3">Add New Schedule</button>
+	                    	<!--  add checking session value make sure this is new blank schedule or not then yes dispaly button --> 
 	                    	<button id="skip-schedule" type="button" class="btn btn-warning btn-lg col-md-3">Skip</button>
 	                    </legend>
 	                    <div id="dialog" title="Select your schedule:">
 	                    	<table class="table">
 	                    		<tr>	
-	                    			<td><b>Schedule:</b></td>
-	                    			<td width="100px">
-	                    				<input style="width:0px; height:0px; border:none;"/>
-	                    				<input id="start_date" name="start_date" type="text" class="date" />
+	                    			<td><b>Schedule:<input style="width:0px; height:0px; border:none;"/></b></td>
+	                    			<td>
+	                    				&nbsp;On&nbsp;<span id="schedule_date" class="bg-success"></span>
+	                    				&nbsp;From&nbsp;<input id="start_time" name="start_time" class="time" type="text" />
+	                    				&nbsp;To&nbsp;<input id="end_time" name="end_time" class="time" type="text" />		
 	                    			</td>
-	                    			<td width="85px"><input id="start_time" name="start_time" class="time" type="text" /></td>
-	                    			<td width="20px">to</td>
-	                    			<td width="100px"><input id="end_date" name="end_date" type="text" class="date" /></td>
-	                    			<td width="85px"><input id="end_time" name="end_time" class="time" type="text" /></td>
 	                    		</tr>
 	                    		<tr>
 	                    			<td></td>
-	                    			<td><input name="all_day" type="checkbox"> All day&nbsp;&nbsp;</td>
-	                    			<td><input name="repeat" type="checkbox"> Repeat</td>
-	                    		</tr>
-	                    		<tr id="repeat-option" class="repeat-mode">
-	                    			<td><b>Repeat:</b></td>
-	                    			<td colspan='5'>
-	                    				<select>
-	                    					<option value="day">Daily</option>
-	                    					<option value="weekday">Every Weekday From Monday to Friday</option>
-	                    					<option value="MWF">Every Monday, Wednesday, Friday</option>
-	                    					<option value="TH">Every Tuesday, Thursday</option>
-	                    					<option value="weekly">Weekly</option>
-	                    					<option value="monthly">Monthly</option>
-	                    				</select>
+	                    			<td>
+	                    				<input name="all_day" type="checkbox"> All day
 	                    			</td>
-	                    		</tr>
-	                    		<tr id="repeat-daily" class="repeat-mode">
-	                    			<td><b>Repeat every:</b></td>
-	                    			<td>	
-	                    				<select>
-	                    					<option value="1">1</option>
-	                    					<option value="2">2</option>
-	                    					<option value="3">3</option>
-	                    					<option value="4">4</option>
-	                    					<option value="5">5</option>
-	                    					<option value="6">6</option>
-	                    					<option value="7">7</option>
-	                    				</select>	                    					
-	                    			</td>
-	                    			<td colspan="4">day(s)</td>
-	                    		</tr>
-	                    		<tr id="repeat-weekly" class="repeat-mode">
-	                    			<td><b>Repeat on:</b></td>
-	                    			<td colspan='5'>
-	                    				<input type="checkbox" name="repeat-day" value="Sunday" id="repeat-sunday"/> S	
-	                    				<input type="checkbox" name="repeat-day" value="Monday" id="repeat-monday"/> M	  
-	                    				<input type="checkbox" name="repeat-day" value="Tuesday" id="repeat-tuesday"/> T
-	                    				<input type="checkbox" name="repeat-day" value="Wednesday" id="repeat-wednesday"/> W
-	                    				<input type="checkbox" name="repeat-day" value="Thusday" id="repeat-thusday"/> T
-	                    				<input type="checkbox" name="repeat-day" value="Friday" id="repeat-friday"/> F
-	                    				<input type="checkbox" name="repeat-day" value="Saturday" id="repeat-Saturday"/> S                  					
-	                    			</td>
-	                    		</tr>
-	                    		<tr id="repeat-monthly" class="repeat-mode">
-	                    			<td><b>Repeat every:</b></td>
-	                    			<td>	
-	                    				<select>
-	                    					<option value="1">1</option>
-	                    					<option value="2">2</option>
-	                    					<option value="3">3</option>
-	                    					<option value="4">4</option>
-	                    					<option value="5">5</option>
-	                    				</select>	                    					
-	                    			</td>
-	                    			<td colspan="4">month(s)</td>
 	                    		</tr>
 	                    		<tr>
-	                    			<td rowspan="2"><b>Summary:</b></td>
-	                    			<td id="time-summary" colspan='5'></td>
-	                    		</tr>
-           			            <tr>
-	                    			<td id="repeat-summary" colspan='5'></td>
+	                    			<td><b>Title:</b></td>
+	                    			<td>
+	                    				<input id="schedule_title" type="text" name="schedule_title" class="form-control" required></input>
+	                    			</td>
 	                    		</tr>
 	                    		<tr>
 	                    			<td><b>Description:</b></td>
-	                    			<td colspan='5'>
-	                    				<textarea id="schedule-description" name="schedule-description" class="form-control" rows="3"></textarea>
+	                    			<td>
+	                    				<textarea id="schedule_description" name="schedule_description" class="form-control" rows="3"></textarea>
 	                    			</td>
 	                    		</tr>
 							</table>

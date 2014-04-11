@@ -14,15 +14,15 @@ import whiteboard.bean.ScheduleBeanModel;
 import com.google.appengine.labs.repackaged.org.json.JSONException;
 import com.google.appengine.labs.repackaged.org.json.JSONObject;
 
-public class AddingScheduleServlet extends HttpServlet {
+public class UpdateScheduleServlet extends HttpServlet {
  
     private static final long serialVersionUID = 1L;
  
     /***************************************************
-     * URL: /AddscheduleServlet
+     * URL: /updateScheduleServlet
      * doPost(): receives JSON , parse it, map it and send back as JSON
      ****************************************************/
-    public AddingScheduleServlet() {  
+    public UpdateScheduleServlet() {  
         super();   
     }  
     
@@ -32,13 +32,13 @@ public class AddingScheduleServlet extends HttpServlet {
     }
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException{
+    	String id = request.getParameter("id");
     	String date = request.getParameter("date");
     	String title = request.getParameter("title");
     	String startTime = request.getParameter("startTime");
     	String endTime = request.getParameter("endTime");
     	String description = request.getParameter("description");
 
-    	
     	/*
     	 * call the ajax manager and store everything to bean
     	 */
@@ -46,6 +46,8 @@ public class AddingScheduleServlet extends HttpServlet {
 		Integer student_id = (Integer) session.getAttribute("user_id");
     	ScheduleBeanModel schedule = new ScheduleBeanModel();
     	
+    	Integer schedule_id = Integer.valueOf(id);
+    	schedule.setSchedule_id(schedule_id);
     	schedule.setStudentId(student_id);
     	schedule.setTitle(title);
     	schedule.setDate(date);
@@ -53,7 +55,7 @@ public class AddingScheduleServlet extends HttpServlet {
     	schedule.setEndTime(endTime);
     	if(description != null && !description.equals("")){ schedule.setDescription(description); }
     	
-    	boolean valid = AjaxDBManager.insertSchedule(schedule);
+    	boolean valid = AjaxDBManager.updateSchedule(schedule);
     	
     	JSONObject json = new JSONObject();
     	response.setContentType("text/json");  
